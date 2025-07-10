@@ -5,23 +5,23 @@
 #include "driver/spi_master.h"
 #include "driver/timer.h"
 #include "esp_log.h"
+#include "driver/gpio.h"
+#include "esp_timer.h"
 
 #define TAG "BALL"
-
-// === CONFIG MACROS ===
 #define INIT_X 1
 #define INIT_Y 1
 #define INIT_VX -1
 #define INIT_VY 1
 #define END_X 6
 #define END_Y 4
-#define FRAME_RATE 5  // frames per second
-
-#define PIN_NUM_MOSI 23
-#define PIN_NUM_CLK  18
-#define PIN_NUM_CS   5
+#define FRAME_RATE 5
+#define PIN_NUM_MOSI 12
+#define PIN_NUM_CLK  27
+#define PIN_NUM_CS   14
 
 spi_device_handle_t spi;
+esp_timer_handle_t timer_led;
 
 int ball_x = INIT_X;
 int ball_y = INIT_Y;
@@ -50,10 +50,14 @@ void max7219_init() {
     max7219_send(0x0B, 0x07);
     max7219_send(0x0A, 0x08);
     max7219_send(0x09, 0x00);
-
     for (int i = 1; i <= 8; i++) max7219_send(i, 0x00);
 }
-
+void clear(){
+    for (int i = 0; i < 8; i++) {
+        framebuffer[i] = 0x00;
+        max7219_send(i, framebuffer[i]);
+    }
+}
 void update_framebuffer() {
     memset(framebuffer, 0, sizeof(framebuffer));
 
@@ -148,3 +152,4 @@ void app_main(void) {
     for (int i = 1; i <= 8; i++) max7219_send(i, 0x00);
     ESP_LOGI(TAG, "Ball reached end. Frame count: %d", frame_count);
 }
+
