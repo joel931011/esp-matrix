@@ -136,20 +136,62 @@ void app_main(void)
     // Use POSIX and C standard library functions to work with files.
 
     // First create a file.
-    const char *file_hello = MOUNT_POINT"/hello.txt";
+    // const char *file_hello = MOUNT_POINT"/hello.txt";
+    const char *frame_time = MOUNT_POINT"/test.txt";
     struct stat st;
-    if (stat(file_hello, &st) == 0) {
-        ESP_LOGI(TAG, "File %s already exists, reading it.", file_hello);
-        ret = s_example_read_file(file_hello);  // 讀取檔案
+    if (stat(frame_time, &st) == 0) {
+        ESP_LOGI(TAG, "File %s already exists, reading it.", frame_time);
+        ret = s_example_read_file(frame_time);  // 讀取檔案
         if (ret != ESP_OK) {
             return;
         }
         
     } else {
-        ESP_LOGI(TAG, "File %s doesn't exist, writing it.", file_hello);
+        ESP_LOGI(TAG, "File %s doesn't exist, writing it.", frame_time);
         char data[EXAMPLE_MAX_CHAR_SIZE];
         snprintf(data, EXAMPLE_MAX_CHAR_SIZE, "%s %s!\n", "Hello", card->cid.name);
-        ret = s_example_write_file(file_hello, data);  // 寫入檔案
+        ret = s_example_write_file(frame_time, data);  // 寫入檔案
+        if (ret != ESP_OK) {
+            return;
+        }
+    }
+
+    // const char *frame_time1 = MOUNT_POINT"/hello.txt";
+    const char *frame_time1= MOUNT_POINT"/test123.txt";
+    struct stat st1;
+    if (stat(frame_time1, &st1) == 0) {
+        ESP_LOGI(TAG, "File %s already exists, reading it.", frame_time1);
+        ret = s_example_read_file(frame_time1);  // 讀取檔案
+        if (ret != ESP_OK) {
+            return;
+        }
+        
+    } else {
+        ESP_LOGI(TAG, "File %s doesn't exist, writing it.", frame_time1);
+        char data[EXAMPLE_MAX_CHAR_SIZE];
+        snprintf(data, EXAMPLE_MAX_CHAR_SIZE, "%s %s!\n", "Hello", card->cid.name);
+        ret = s_example_write_file(frame_time1, data);  // 寫入檔案
+        if (ret != ESP_OK) {
+            return;
+        }
+    }
+
+    // First create a file.
+    // const char *file_hello = MOUNT_POINT"/hello.txt";
+    const char *frame_time2= MOUNT_POINT"/lightdance_data.txt";
+    struct stat st2;
+    if (stat(frame_time2, &st2) == 0) {
+        ESP_LOGI(TAG, "File %s already exists, reading it.", frame_time2);
+        ret = s_example_read_file(frame_time2);  // 讀取檔案
+        if (ret != ESP_OK) {
+            return;
+        }
+        
+    } else {
+        ESP_LOGI(TAG, "File %s doesn't exist, writing it.", frame_time2);
+        char data[EXAMPLE_MAX_CHAR_SIZE];
+        snprintf(data, EXAMPLE_MAX_CHAR_SIZE, "%s %s!\n", "Hello", card->cid.name);
+        ret = s_example_write_file(frame_time2, data);  // 寫入檔案
         if (ret != ESP_OK) {
             return;
         }
